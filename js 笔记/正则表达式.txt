@@ -1,0 +1,204 @@
+正则表达式介绍
+    在字符串中查找 对应模式 的字符
+    ->也就是说在字符串中找到满足条件的字符
+
+    表单 -> 表单验证
+    webpack -> 打包工具
+        .vue
+        .html
+        .css
+        .js
+        .ts
+        ......
+2.创建方式
+    1）正则表达式的字面量
+        var 名称 = /正则表达式/正则表达式的修饰符;
+    2）构造函数RegExp
+        var 名称 = new RegExp('正则表达式','正则表达式的修饰符');
+
+    var pattern1 = /he/img;
+    var pattern2 = new RegExp('he','img');
+    console.log(pattern1);// /he/img
+    console.log(pattern2);// /he/img
+
+    修饰符
+        i：ingoreCase   忽略大小写
+        m：multiline    多行匹配
+        g：global       全局匹配
+            会维护lastIndex属性，不加g的话也会有lastIndex，但是不会维护，是固定值。        
+3.正则表达式的属性
+    RegExp.prototype.global 检测正则表达式中是否存在g修饰符，存在返回true，不存在返回false
+    RegExp.prototype.multiline 检测正则表达式中是否存在m修饰符 存在返回true，不存在返回false
+    RegExp.prototype.ingoreCase 检测正则表达式中是否存在i修饰符 存在返回true，不存在返回false
+    RegExp.prototype.lastIndex 
+    RegExp.prototype.source 正则表达式的字符串的形式  
+    RegExp.prototype.flags 修饰符的字符串形式
+        var pattern1 = /he/img;
+        console.log(pattern1.source); //he
+        console.log(pattern1.flags);    // img
+4.正则表达式的方法
+    RegExp.prototype.test()
+        用法：检测字符串中是否存在满足条件的字符,【字符串中是否存在正则表达式】
+        参数：需要检测的字符串
+        返回值: 如果存在返回true，不存在返回false
+            下面代码含义：检测字符串str中是否存在连续的字符hell
+            var str = 'hello regexp';
+            var pattern = /hell/img;
+            var res = pattern.test(str);
+            console.log(res); //true
+
+            var str = 'hello regexp';
+            var pattern = /h e/img;
+            var res = pattern.test(str);
+            console.log(res); //false
+    RegExp.prototype.exec() 
+        用法：检测字符串中是否存在满足条件的字符
+        参数：需要检测的字符串
+        返回值：如果存在，返回该字符串组成的数组；如果不存在返回null
+            var str = 'hello regexp';
+            var pattern = /he/img;
+            var res = pattern.exec(str);
+            console.log(res);  //[ 'he', index: 0, input: 'hello regexp', groups: undefined ]
+
+            var str = 'hello regexp';
+            var pattern = /h e/img;
+            var res = pattern.exec(str);
+            console.log(res);  //null
+
+            关于g修饰符对于lastIndex属性的影响：
+            
+            加g修饰符
+            var str = 'hello js hello world';
+            var pattern  = /hello/img;
+            var res1 = pattern.exec(str);
+            console.log(res1);  //[‘hello’]
+            console.log(pattern.lastIndex);  //5
+
+            var res2 = pattern.exec(str);
+            console.log(res2);  //[‘hello’]
+            console.log(pattern.lastIndex);   //14
+
+            var res3 = pattern.exec(str);
+            console.log(res3);  //null
+
+            var str = 'hello js hello world';
+            var pattern  = /hello/im;
+            var res1 = pattern.exec(str);
+            console.log(res1);
+            console.log(pattern.lastIndex);
+            var res2 = pattern.exec(str);
+            console.log(res2);
+            console.log(pattern.lastIndex);
+
+            如果在正则表达式中加了g修饰符，表示每次检查完字符串之后，都会维护一个lastIndex属性
+            如果在正则表达式中不加g修饰符，不会维护一个lastIndex属性，每次检测都从字符串的最左侧开始。
+
+            需求：找出字符串中所有满足条件的字符，放入一个数组
+                循环条件 while
+                var str = 'hello js hello world';
+                var pattern  = /hello/img;
+                var res ;
+                var arr = [];
+                while(res = pattern.exec(str)){
+                        arr.push(res[0]);
+                }
+                console.log(arr); //[ 'hello', 'hello' ]
+
+                字符串中存在对正则表达式的支持
+                    str.match(pattern) 找到字符串中所有满足条件的字符，然后放到一个数组中去。
+                    var str = 'hello js hello world';
+                    var pattern  = /hello/img;
+                    var res = str.match(pattern);
+                    console.log(res);
+                
+
+5.案例
+    1）以数字开始的换行字符串
+        var str = 'helle\n1wq\n2asd';
+        var pattern = /^\d/img;
+        var res = str.match(pattern);
+        console.log(str);
+        console.log(res); // ['1','2']
+
+        var str = 'helle\n1wq\n2asd';
+        var pattern = /^\d/ig;
+        var res = str.match(pattern);
+        console.log(str);
+        console.log(res); //null
+        如果不加m修饰符，则只匹配第一行的字符串，换行之后不匹配。
+    2）转义
+        var str = '123. 123q';
+        var pattern = /\d\d\d./img;
+        var res = str.match(pattern);
+        console.log(res); //123. 123q
+
+        var str = '123. 123q';
+        var pattern = /\d\d\d\./img;
+        var res = str.match(pattern);
+        console.log(res); //123.
+
+        \.  等价于 .
+        \/  等价于 /
+
+    3）手机号位数
+        var num = 12345678900;
+        var pattern = /^1\d{10}/img;
+        var res = pattern.test(num);
+        console.log(res); //true
+
+        var num = 123456789000;
+        var pattern = /^1\d{10}/img;
+        var res = pattern.test(num);
+        console.log(res); //true 与预期不相符
+
+        var num = 123456789000;
+        var pattern = /^1\d{10}$/img;
+        var res = pattern.test(num);
+        console.log(res); //false 
+        加上$ 表示严格控制位数。
+
+    4）手机号验证
+        11位，以数字1开始，第二位 3，4，5，7，8，9，之后没有约束
+            var num = 13345678900;
+            var pattern = /^1{3,4,5,7,8,9}\d{9}$/img;
+            var res = pattern.test(num);
+            console.log(res);
+
+6.字符类
+    . 任意的字符
+    \d 数字
+        等价于 [0-9]
+    \D 非数字
+        等价于 [^0-9]  ** 与^[0-9]不同
+    \w 字符
+        等价于 [A-Za-z_]
+    \W 非字符
+        等价于 [^A-Za-z_]
+
+    ^[0-9] 以数字开始
+    [0-9]$ 以数字结尾
+
+    {3，4，5，7，8，9} 表示 该字符要是（3，4，5，7，8，9）其中一个。
+    
+        var str = '2021/04/22';
+        var pattern = /\d{4}\/\d{2}\/\d{2}/img
+        var res = str.match(pattern);
+        console.log(res); //[ '2021/04/22' ]
+
+7.数量词
+    表示将规则匹配多少次
+        x{4} 将模式x匹配4次
+        x{4,} 将模式x匹配至少4次
+        x{4,7} 将模式x匹配4到7次
+
+8.日期对象
+    var str = new Date()
+    str就是当前日期
+    日期进行转换
+
+------------
+属性与方法
+    属性在使用时，不需要加()
+    方法在使用时，需要加()
+
+

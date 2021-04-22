@@ -1,0 +1,214 @@
+1.数组api【方法】由实例调用
+    var arr = new Array();
+    Array() 构造函数
+    Array.prototype 构造函数原型
+    arr       实例,可以调用构造函数原型上的方法
+
+    定义、参数、返回值
+
+    1）数组元素的新增或删除
+        push()【会改变原数组】
+            定义:在数组的后方新增元素
+            参数:需要新增到数组中的元素
+            返回值：新增完元素之后数组的长度
+
+            var arr = [1,2,3];
+            var res = arr.push('a');
+            console.log(arr);//[ 1, 2, 3, 'a' ]
+            console.log(res);//4
+
+            var arr = [1,2,3];
+            var res = arr.push('a','b','c');
+            console.log(arr);//[ 1, 2, 3, 'a', 'b', 'c' ]
+            console.log(res);//6
+
+        pop()【会改变原数组】
+            定义:在数组的后方删除一个元素【只能是一个元素】
+            参数:无
+            返回值：被删除的元素
+
+            var arr = [1,2,3,'a'];
+            var res = arr.pop();
+            console.log(arr);// [ 1, 2, 3 ]
+            console.log(res);// a
+        
+        shift()【会改变原数组】
+            定义:在数组的前方删除一个元素【只能是一个元素】
+            参数:无
+            返回值：被删除的元素
+
+            var arr = ['a',1,2,3];
+            var res = arr.shift();
+            console.log(arr); //[ 1, 2, 3 ]
+            console.log(res);// a
+
+        unshift()【会改变原数组】
+            定义:在数组的前方新增元素
+            参数:需要新增到数组中的元素
+            返回值：新增完元素之后数组的长度
+
+            var arr = [1,2,3];
+            var res = arr.unshift('a','b','c');
+            console.log(arr);//[ 'a', 'b', 'c', 1, 2, 3 ]
+            console.log(res);// 6
+
+            
+
+    2）数组的切割
+        concat()【不会改变原数组】
+            定义:拼接数组
+            参数:需要拼接的数组
+            返回值:合并完之后的新数组
+            
+            /拼接两个
+            var arr1 = [1,2,3];
+            var arr2 = [4,5,6];
+            var res = arr1.concat(arr2);
+            console.log(arr1);//[ 1, 2, 3 ]
+            console.log(arr2);//[ 4, 5, 6 ]
+            console.log(res);//[ 1, 2, 3, 4, 5, 6 ]
+
+            //拼接三个
+            var arr1 = [1,2,3];
+            var arr2 = [4,5,6];
+            var arr3 = [7,8,9];
+            var res = arr1.concat(arr2,arr3);
+            console.log(arr1);//[ 1, 2, 3 ]
+            console.log(arr2);//[ 4, 5, 6 ]
+            console.log(arr3);//[ 7, 8, 9 ]
+            console.log(res);//[ 1, 2, 3, 4, 5, 6 ,7 ,8 ,9 ]
+
+
+        slice()【不会改变原数组】
+            定义:切割数组
+            参数:
+                一个参数：表示从当前参数指定位置开始【索引】，截取数组，一直到数组结尾
+                两个参数：表示截取两个参数之间的元素【不包含结束位置上的元素】
+            返回值:截取到的新数组
+                如果没有截取到元素，则返回空数组
+
+            var arr = [1,2,3];
+            var res = arr.slice(1);
+            console.log(arr);//[1,2,3]
+            console.log(res);//[2,3]
+
+            var arr = [1,2,3];
+            var res = arr.slice(5);
+            console.log(arr);//[1,2,3]
+            console.log(res);//[1]
+
+            两个参数，2开始4结束，不包括4
+            var arr = [1,2,3,4,5,6];
+            var res = arr.slice(2,4);
+            console.log(arr);
+            console.log(res);// [3,4]
+
+        splice()
+            定义：对数组进行删除，替换，插入的操作
+            参数：
+                两个参数：第一个参数表示起始位置，第二个参数表示需要删除的位数
+            返回值：被截取的元素组成的新数组
+
+            //两个参数的情况 【删除】
+                var arr = [1,2,3,4,5,6];
+                //截取一个元素 从索引为2这个位置开始
+                var res = arr.splice(2,1);
+                console.log(arr);//[ 1, 2, 4, 5, 6 ]
+                console.log(res);//[ 3 ]
+            //三个参数的情况 【插入】
+                var arr = [1,2,3,4,5];
+                //在索引为2的位置上插入 a b
+                var res = arr.splice(2,0,'a','b');
+                console.log(arr);//[ 1, 2, 'a', 'b', 3, 4, 5 ]
+                console.log(res);//[]
+
+            //三个参数的情况 【修改】
+                var arr = [1,2,3,4,5];
+                //在索引为2的位置上开始，删除三个元素，再插入a,b
+                var res = arr.splice(2,3,'a','b');
+                console.log(arr);//[ 1, 2, 'a', 'b' ]
+                console.log(res);//[ 3, 4, 5 ]
+
+    3)数组元素的检测【看某个元素是不是存在在数组中】
+        indexOf()
+            定义：查找数组中的元素
+            参数：需要查找的元素
+            返回值：
+                如果元素在数组中存在，则返回元素在数组中首次出现时的索引位置
+                如果元素在数组中不存在，则返回-1；
+
+            var arr = [1,2,3];
+            var res1 = arr.indexOf(2);
+            var res2 = arr.indexOf(3);
+            var res3 = arr.indexOf(5);
+            console.log(res1);//1
+            console.log(res2);//2
+            console.log(res3);//-1
+
+            var arr = [1,2,3,1,2,3];
+            var res = arr.indexOf(2);
+            console.log(res);//1
+    
+
+    ---拓展---
+        1.重构push方法
+            var arr = [1,2,3];
+            Array.prototype.myPush = function(){
+                    for(var i=0;i<arguments.length;i++){
+                            this[this.length] = arguments[i];
+                    }
+                    return this.length;
+            }
+            var res = arr.myPush('a','b');
+            console.log(arr);
+            console.log(res);
+
+        2、重构pop方法
+            var arr = [1,2,3];
+            Array.prototype.myPop = function(){
+                var test = this[this.length - 1]
+                this.length--;
+                return test;
+            }
+            var res = arr.myPop();
+            console.log(arr);
+            console.log(res);
+
+        2.数组去重
+        [1,2,3,1,2,3]
+
+         0 1 2 0 1 2 -> 使用indexOf检测的结果
+
+         0 1 2 3 4 5 -> 原始的索引
+
+        使用indexOf检测的结果 == 原始的索引
+        =>
+        [1,2,3]
+
+        方法一：
+        var arr = [1,2,3,1,2,3,7,3,7];
+        Array.prototype.myReduce = function(){
+                var result = [];
+                for(var i = 0;i<this.length;i++){
+                        if(this.indexOf(this[i]) == i ){
+                                result.push(this[i]);
+                        }
+                }
+                return result;
+        }
+        var res = arr.myReduce();
+        console.log(res);
+
+        方法二：
+        var arr = [1,2,3,1,2,3,7,3,7];
+        Array.prototype.myReduce = function(){
+                for(var i = 0;i<this.length;i++){
+                        if(this.indexOf(this[i]) !== i ){
+                                this.splice(i,1);
+                                i--;
+                        }
+                }
+                return this;
+        }
+        var res = arr.myReduce();
+        console.log(res);

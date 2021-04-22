@@ -1,0 +1,195 @@
+1.数组介绍
+    有序的存放任意数据类型的集合
+    数组中的数据可以叫做 元素
+
+2.数组创造
+    1）默认字面量
+        var 数组名 = [];
+
+        var arr = [1,'a',true,null,undefined,{},[]];
+        console.log(arr);//[ 1, 'a', true, null, undefined, {}, [] ]
+
+    2）构造函数Array
+        var 数组名 = new Array();
+
+        var arr1 = new Array(3);    //  [<3 empty items>]
+        var arr2 = [3];     // [3]
+        var arr3 = [];      // []
+        console.log(arr1,arr2);    
+
+        注意：一般情况下，使用构造函数创建数组时，可以直接将元素放到（）中,
+        但是如果只放一个数字，创建出来的数组就有问题 。
+        上述代码arr1和arr3不一样，数组元素个数不一样。
+
+        ***
+        
+        Array.of(7)
+    3）数组的访问
+        数组名[索引]
+            索引是数组中用来排序的，数组中的每一个元素都对应一个索引，
+            索引从0开始[没有负数]；如果访问的索引在数组中不存在，则返回undefined。
+    4）数组的属性
+        数组的长度 length，表示数组元素的个数
+            Array(3) 是三个空的插槽，长度为3.
+
+        数组名.length
+
+        数组索引的最大值 = 数组长度 -1
+        var  arr= [];
+        arr[arr.length] = 'a';
+        arr[arr.length] = 'b';
+        console.log(arr);
+
+        数组的length属性可以改变数组的大小
+        var  arr= [1,2,3,4,5]
+        arr.length = 3 ;
+        console.log(arr);   //[ 1, 2, 3]
+
+        var  arr= [1,2,3,4,5]
+        arr.length = 7 ;
+        console.log(arr);   //[ 1, 2, 3, 4, 5, <2 empty items> ]
+    5）.数组的遍历
+        1.for循环
+            var arr = ['a','b','c','d']
+            for (var i = 0;i<=arr.length-1;i++){
+                    console.log(arr[i]);
+            }
+        2.while
+        3.do while
+        4.for-in
+            var arr = ['a','b','c','d']
+            for(var key in arr){
+                    console.log(key);
+                    console.log(arr[key]);
+            }
+            // key是遍历数组的索引
+    6）数组的检测
+        检测一个变量是否是数组
+            Array 构造函数
+            Array.prototype 构造函数的原型
+            arr 实例
+            实例可以访问原型中的方法。
+
+            instanceof 判断某个变量是否是构造函数的实例。
+                var arr = [];
+                console.log(arr instanceof Array); //true
+                console.log(arr instanceof Object); //true
+            Array.isArray() 判断某个变量是否是数组，如果不是返回false
+                var arr = [];
+                var obj = {};
+                console.log(Array.isArray(arr)); //true
+                console.log(Array.isArray(obj)); //false
+            es6:
+            Array.from()
+			将类数组对象转换为数组【可以转换别人写好的，也可以转换自己写的,如果是自己声明的，必须有length属性】
+                1.转换别人的
+                function say(){
+                    console.log(arguments);
+                    var a=Array.from(arguments);//将函数中的类数组对象转换为数组
+                    console.log(a);//打印数组
+                    console.log(Array.isArray(a));//检测a是否转变为数组
+                }
+                2.转换自己的
+                var obj={
+                    "0":1,
+                    "1":2,
+                    "2":3,
+                    "length":3
+                }
+                var result=Array.from(obj);
+                console.log(result);
+                console.log(Array.isArray(result));
+    7）数组的序列化
+        将数组转化为字符串
+        toString()
+            arr.toString()
+        join(v)将数组的元素通过符号v进行拼接。
+            arr.join()
+                var arr = [1,2,3,4]
+                var res1 = arr.toString();
+                console.log(res1);
+                var res2 = arr.join(); //1,2,3   【不加会报错？？我在linux终端上测试没有报错】
+                console.log(res1);
+                var res3 = arr.join('');
+                console.log(res2);  //123
+                var res4 = arr.join('-');
+                console.log(res4);  //1-2-3
+        JSON.stringify()
+            JSON.stringify(arr)
+                var arr = [1,2,3];
+                var res = JSON.stringify(arr);
+                console.log(res); //[1,2,3,4]
+    
+    8)数组排序
+        sort() 数组元素的排序 原型的方法 实例.方法名
+            特殊情况：需要使用比较器函数
+                var arr = [15,31,4,2,6,1];
+                console.log(arr.sort(function(a,b){
+                        if(a>b){
+                                return 1;
+                        }else {
+                                return -1;
+                        }
+                }));  
+                如果a>b返回1 则从小往大排序，如果a<b 则从小往大排序。
+
+        reverse() 数组元素的反转【直接反转并不会先排序再反转】
+            var arr = [1,2,3,4];
+            var res = arr.reverse();
+            console.log(res); //[ 4, 3, 2, 1 ]
+
+        需求：字符串的反转
+            1.将字符串通过split('');切割成数组 【以hello字符串为例 ('')中间不能有空格和其他的字符，有的话均会打印'hello'】
+            1.将数组元素反转
+            3.将数组转化为字符串
+
+            var str = 'hello';
+            var res = str.split('').reverse();
+            var result = res.join('');
+            console.log(str.split(''));
+            console.log(res);
+            console.log(result);
+            ->
+            var str = 'hello';
+            var res = str.split('').reverse().join('');
+            console.log(res);
+
+        9）数组的迭代/遍历【由数组自己提供的方法】
+            由数组自己提供的方法
+            五个遍历方法都有一个参数：匿名函数，匿名函数中又有三个参数
+                item 被遍历数组中的每一项
+                index 被遍历数组中的每一项所对应的索引
+                arr  被遍历的数组
+
+            forEach(function(item,index,arr){}) 遍历数组中的每一项，没有返回值，就算forEach中写了return也没与返回值【会返回undefined】
+                var arr = ['a','b','c','d'];
+                arr.forEach(function(item,index,arr){
+                        console.log(item,index,arr);
+                })
+            filter(function(item,index,arr){}) 过滤 过滤出满足给定条件的元素
+                var arr = ['1','2','3','4','5'];
+                var res = arr.filter(function(item){
+                        if(item>3){
+                                return item;
+                        }
+
+                })
+                console.log(res,'---'); //['4','5'] **返回的东西被保存在数组中 res是一个数组
+            map(function(item,index,arr){}) 映射 将当前数组中的元素换一种形式展示到新数组中去。
+                var arr = ['1','2','3','4','5'];
+                var res = arr.filter(function(item){
+                        if(item>3){
+                                return item;
+                        }
+
+                })
+                console.log(res,'---');//[undefined,undefined,undefined,'4','5']
+            every(function(item,index,arr){})
+            some(function(item,index,arr){})
+
+
+
+                
+
+
+        

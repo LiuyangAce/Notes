@@ -1,0 +1,110 @@
+1.基本数据类型的转化
+    1）将其他数据类型转化为数字类型 other->number
+        string boolean null undefined 
+        1）+ - 
+        2）Number() 
+        3）parseFloat 
+        4）parseInt
+        string->number:    
+            Number();
+                var str1 = '';var str2 = '20';var str3 = 'hello';
+                var res1 = Number(str1,str2,str3);
+                // 0 20 NaN
+            parseInt();
+                var str1 = '';
+                var str2 = '20';
+                var str3 = 'hello';
+                var res1 = parseInt(str1);
+                var res2 = parseInt(str2);
+                var res3 = parseInt(str3);
+                // NaN 20 NaN
+            parseFloat();
+                var str1 = '';
+                var str2 = '20';
+                var str3 = 'hello';
+                var res1 = parseFloat(str1);
+                var res2 = parseFloat(str2);
+                var res3 = parseFloat(str3);
+                // NaN 20 NaN
+        boolean->number
+            Number(); 
+                Number(true);//1
+                Number(float);//0
+        null->number/undefined
+            Number
+              0           NaN
+
+
+    2）将其他数据类型转化为字符串类型 other-> string
+        String(a);
+            String(1)//1
+            String(true)//true
+            String(null)//null
+            String(undefined);//undefined
+        a.toString();
+            null和undefined 没有toString()方法。
+            数字 e.g 1 //1
+            boolean e.g true // true
+
+    3) 将其他数据类型转化为布尔类型 other-> boolean
+        方法
+            1）Boolean()
+            2）！！
+        数字 -> boolean
+            0和非零 
+                数字0转化为布尔时，为false，
+                非零数字（3、-1、1.2）转化为布尔时，为true
+                    Boolean(0) //false
+                    Boolean(3) Boolean(-2) Boolean(1.2) //true
+                    num=0; !!num; //false
+                    num=-1或者3或者1.2; !!num;//true 
+        字符串 -> boolean
+                空字符串转化为布尔，值为false
+                非空字符串转为布尔，值为true
+        null、undefined -> boolean
+                null、undefined转换为布尔时候，都为false
+
+2、流程控制语句
+    1）分支语句【根据给定的条件，执行不同的代码】
+        if() {}
+        condition 表示判断结果，该结果为true时，会执行{}中的代码
+        if() else {}
+        condition 表示判断结果，该结果为true时，会执行{}中的代码
+        condition 表示判断结果，该结果为false时，会执行else后面的代码
+        if() {} else{} if() .....
+        vue: v-if v-else
+        switch-case
+            注意：
+            1.switch-case 的判断遵循=== 的规则，不会自动进行数据类行转化。
+            2.每个case中协商break时，当前的分支语句只会执行一个case中的代码。
+            3.switch和case之间不可以写其他代码。
+            4.default也就是所有条件不满足时输出的代码，可以不用加break;
+    2）循环语句
+        循环三要素：初始化条件、结束的条件、迭代
+        for循环
+            for(初始化条件;结束条件;迭代){
+                //循环体
+            }
+            1~100累计和 5050
+                var sum=0;
+                for (i=1;i<=100;i++){
+                    sum+=i;
+                }
+                console.log(sum);
+        while循环 【前置while循环】
+            初始化条件
+            while(结束条件){
+                循环体
+                迭代
+            }
+        do while
+            do {
+                //循环体
+                迭代
+            }while(结束条件)
+
+作业： 
+1.完成ppt中js部分课后习题，第一、三题
+2.8位随机数，没有重复的数字
+        
+    

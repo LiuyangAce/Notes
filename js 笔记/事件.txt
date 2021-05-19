@@ -1,0 +1,180 @@
+2. 事件
+    javascript与HTML之间的交互是通过事件实现的。事件就是文档或浏览器窗口中发生的一些特定的交互瞬间。
+    事件三要素：
+		事件目标（event target）	
+			发生的事件与之相关联或与之相关的对象
+		事件处理程序（event handler）
+			处理或相应事件的函数
+		事件对象（event object）     
+			与特定事件相关且包含有关该事件详细信息的对象。
+	1) 事件流
+	    描述的是从页面中接受事件的顺序
+	    1. 事件冒泡
+			事件开始由最具体的元素接收，然后逐级向上传播到不具体的节点。
+			<html>
+				<head></head>
+				<body>
+					<div>click me</div>
+				</body>
+			</html>
+			当点击了<div>元素，这个click事件会按照如下顺序传播
+		    div->body->html->document
+			注意：IE8以及更早版本只支持事件冒泡。
+
+	    2. 事件捕获
+			不太具体的节点更早接收事件，具体的节点到最后接收事件。当点击了<div>元素，按照如下方式触发click事件
+		  	document->html->body->div
+	    3. dom事件流
+			“DOM2级事件”规定了事件流包括三个阶段：事件捕获阶段，处理目标阶段和事件冒泡阶段。
+		  	事件捕获： document->html->body  
+		  	处理目标： 事件处理
+		  	事件冒泡： div->body->html->document
+	2) 事件处理程序
+	    事件就是用户或浏览器自身执行的某种动作，响应某个事件的函数为事件处理程序，事件处理程序以"on"开头(onclick,onload)
+	    1. HTML事件处理程序
+			<input type="button" value="clickMe" onclick = "alert('is clicked')">
+			不能在事件中使用未经转义的HTML语法字符
+		
+			<input type="button" value="clickMe" onclick = "showMsg()">
+			<script type="text/javascript">
+				function showMsg(){
+					alert("is clicked");
+				}
+			</script>
+			点击按钮会调用showMsg()函数，事件处理程序的代码在执行时，有权访问全局作用域的任何代码。
+
+	    2. DOM0级事件处理程序
+			通过javascript制定时间事件程序的传统方式，将一个函数赋值给一个事件处理程序属性。特点是简单，跨浏览器。
+	        var btn = document.getElementById("btn");
+			btn.onclick = function(){
+				alert('cliked');
+			}
+			dom0级方法制定的事件处理程序被认为是元素的方法，因此这个时候时间处理程序是在元素的作用域中运行，this指向当前元素。
+	        btn.onclick = null;  //删除事件处理程序
+	    3. DOM2级事件处理程序
+			addEventListener()	
+			事件绑定
+				参数：
+					要绑定的事件名
+		  			作为事件处理的函数
+		 		 	布尔值：true在捕获阶段调用事件处理程序；false在冒泡阶段调用
+			removeEventListener()	
+			事件删除
+				参数：
+					要删除的事件名
+		  			作为事件处理的函数
+		 		 	布尔值：true在捕获阶段调用事件处理程序；false在冒泡阶段调用
+			
+		  	例如：
+		  		//事件绑定
+				var btn = document.getElementById("btn");
+				btn.addEventListener("click",function(){
+					alert(this.id); //该函数在其依附的元素的作用域中运行。
+				},false);
+				//事件移除
+				var btn = document.getElementById("btn");
+				var handler = function(){
+					alert(this.id);
+				}
+				btn.addEventListener("click",handler,false);
+				btn.removeEventListener("click",handler,false);//移除
+
+				可以添加多个事件处理程序，并且按照添加她们的顺序触发。移除事件传入的参数与添加处理程序时使用的参数相同，添加事件时如果使用匿名函数将无法删除
+    	
+
+	3) 事件对象	
+	    1. dom中的事件对象
+	       	在触发DOM上的某个事件时，会产生一个事件对象event,这个对象包含着所有与事件相关的信息，默认会将event对象传入到事件处理函数中
+	        dom.onclick = function(event){
+		     	console.log(event);
+	        }
+	        dom.addEventListener("click",function(event){
+		     	console.log(event);      
+	        },false);
+
+			属性 				类型				说明
+			bubbles				Boolean		事件是否冒泡
+			cancelable			Boolean		是否可以取消事件默认行为
+			currentTarget		Element		当前正在处理事件的那个元素
+			eventPhase			Integer		调用事件处理程序的阶段;1，捕获 2，处于目标 3，冒泡
+			target				Element		事件目标
+			type				String		事件类型
+			preventDefault()	Function	取消事件的默认行为
+			stopPropagation()	Function	取消事件的进一步捕获或者冒泡
+		
+		  	在事件处理程序内部，对象this始终等于currentTarget值，而target则只包含事件的实际目标。如果直接将事件处理程序指定给了目标元素，this,currentTarget,target包含相同的值。
+	    
+
+	4) 事件类型
+	    1. UI事件
+			load	
+				当页面完全加载后再window上触发，当所有框架加载完毕时在框架集上触发，当图像加载完毕时在img元素上触发，当嵌入的内容加载完时在<object>触发        
+			unload	
+				当页面完全卸载后再window上触发，当所有框架都卸载后在框架集上触发，当嵌入的内容卸载完毕后再<object>上触发,(firefox不支持)
+			select:
+				当用户选择文本框（<input>,<textarea>）中的一个或多个字符时
+			resize
+				当浏览器窗口被调整到一个新的高度或者宽度时，会触发
+			scroll
+				当用户滚动带滚动条的元素中的内容时，在该元素上触发resize,scroll会在变化期间重复被激发，尽量保持代码简单
+	    2. 焦点事件
+			blur
+				元素失去焦点的时候触发
+			focus
+				元素获得焦点的时候触发，不支持冒泡
+			//IE支持
+			focusin	
+				与focus等价，支持冒泡
+			focusout
+				与blur等价，支持冒泡
+	    3. 鼠标与滚轮事件
+			click 		
+				点击主鼠标按钮或者按下回车按键的时候触发。
+				只有在一个元素上相继发生mousedown,mouseup事件，才会触发click事件，【支持子元素】
+			dbclick
+				双击主鼠标按钮时触发.只有在一个元素上相继触发两次click时间才会触发dbclick事件
+			mousedown
+				任意鼠标按钮按下时触发
+			mouseup
+				释放鼠标按钮触发
+			mousemove
+				鼠标在元素内部移动的时候重发触发
+			mousewheel
+				滚轮事件
+			mouseover
+				鼠标位于元素外部，将其首次移入另一个元素边界之内时触发【支持子元素】
+			mouseenter
+				鼠标光标从元素外部首次移动到元素范围内激发，不冒泡。【不支持子元素】
+			mouseout  
+				在位于元素上方的鼠标光标移入到另外一个元素中。【支持子元素】在被选元素上与mouseleave效果相同
+			mouseleave
+				在位于元素上方的鼠标光标移动到元素范围之外时触发，不冒泡【不支持子元素】
+	    4. 相关元素,event特殊属性
+			1.客户区坐标位置
+		  		clientX,clientY 事件发生时，鼠标指针在视口中的水平和垂直坐标
+			2.页面坐标位置
+		  		pageX,pageY 事件发生时，鼠标指针在页面本身而非视口的坐标，页面没有滚动的时候，pageX和pageY的值与clientX和clientY值相等
+			3.屏幕位置
+		  		screenX,screenY
+			4.修改键
+	          值为boolean类型，用来判断对应的按键是否被按下
+				shiftKey	
+				ctrlKey
+				altKey
+				metaKey
+			5.鼠标按钮
+			  	mousedown,mouseup，该事件的event对象中包含了button属性，表示按下或释放的按钮。
+			  	0表示主鼠标按钮
+			  	1表示中间的滚动按钮
+			  	2表示次鼠标按钮
+	    5. 键盘与文本事件
+			keydown		按下键盘任意键时触发，如果按住不放会重复触发此事件
+			keypress	按下键盘字符键时触发，如果按住不放会重复触发此事件
+			keyup		释放键盘上键时触发
+		  	当键盘事件发生时，event对象的keyCode属性中会包含一个代码与键盘上的特定键对应，对数字字母键，keyCode属性的值与ASCII码中对应的小写字母和数字编码相同
+			详见keycode.txt
+
+
+
+
+

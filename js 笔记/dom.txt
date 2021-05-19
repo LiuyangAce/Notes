@@ -1,0 +1,220 @@
+1. 文档对象模型，Document Object Model
+    DOM是针对HTML和XML文档的一个API（应用程序编程接口）,
+	DOM描绘了一个层次化的节点树，允许开发人员添加，移除，修改页面的某一部分。
+	1998年10月DOM1级规范成为W3C的推荐标准，为基本的文档结构以及查询提供了接口。
+	但是要注意，IE中的所有DOM对象都是以COM对象的形式实现的。
+	这意味着IE中的DOM对象与原生JavaScript对象的行为或活动特点并不一致。
+
+    DOM可以将任何HTML或XML文档描绘成一个由多层节点构成的结构。
+	节点分为几种不同的类型，每种类型分别表示文档中不同的信息或标记。
+	每个节点拥有各自的特点，数据和方法，另外也有与其他节点存在某种关系。
+	节点之间的关系构成了层次，所有页面标记则表现为一个以特定节点为根节点的树形结构。
+
+    Object:
+    	Node:节点类型
+    		Element:标签类型
+    			div
+    			span
+    			a
+    			...
+    		Text:文本类型
+    			""
+    		Comment:注释类型
+
+    		Document:文档类型
+    			HTMLDocument:document
+    			window:{
+    				document:{}
+    			}
+    			console.log(document);
+
+
+
+
+
+
+    	
+	1) Node类型
+    	DOM1级定义为一个Node接口，该接口将由DOM中的所有节点类型实现。
+		除了IE之外，在其他所有浏览器中都可以访问到这个类型。
+		javascript中所有的节点类型都继承自Node类型，所有节点类型都共享着相同的基本属性和方法。
+    			
+1. 节点关系
+	属性：
+		nodeType	
+			表示节点类型
+			返回值类型number	
+			Element 1;TextNode 3;Comment 8;Document 9
+			document 是Document构造函数的实例
+			document.body是Element构造函数的实例
+			document.body.firstChild 是【不确定 具体情况具体分析】构造函数的实例
+		nodeName
+			该属性取决于节点类型，如果是元素类型，值为元素的标签名
+			对于节点类型返回值为大写的字符串类型的标签名称
+
+			返回值类型：字符串类型 浏览器上显示为黑色
+			返回值：Element:大写的标签名；Text:#text；
+					Comment:#comment；Document:#document
+		
+		childNodes	
+			属性，保存一个NodeList对象，NodeList是一种类数组对象用来保存一组有序的节点
+			，NodeList是基于DOM结构动态执行查询的结果，DOM结构变化可以自动反应到NodeList对象中。
+			访问时可以通过中括号访问，也可以通过item()方法访问。可以使用slice方法将NodeList转换为数组
+		parentNode
+			指向文档树中的父节点。包含在childNodes列表中所有的节点都具有相同的父节点，每个节点之间都是同胞/兄弟节点。
+		previousSibling
+			兄弟节点中的前一个节点	
+		nextSibling
+			兄弟节点中的下一个节点	body的下一个结点是null
+		firstChild
+			childNodes列表中的第一个节点
+		lastChild
+			childNodes列表中的最后一个节点
+		ownerDocument	
+			指向表示整个文档的文档节点。任何节点都属于它所在的文档，任何节点都不能同时存在于两个或更多个文档中。
+	方法：
+		hasChildNodes()
+			在包含一个或多个子节点的情况下返回true
+  
+
+2. 操作节点
+	以下四个方法都需要父节点对象进行调用!
+	appendChild()
+		向childNodes列表末尾添加一个节点。
+		返回新增的节点。
+		关系更新如果参数节点已经为文档的一部分，位置更新而不插入，dom树可以看做是由一系列的指针连接起来的，任何DOM节点不能同时出现在文档中的多个位置。
+	insertBefore()
+		第一个参数：要插入的节点；
+		第二个参数：作为参照的节点；
+		被插入的节点会变成参照节点的前一个同胞节点,同时被方法返回。如果第二个参数为null将会将该节点追加在NodeList后面
+	replaceChild()
+		第一个参数：要插入的节点；
+		第二个参数：要替换的节点；
+		要替换的节点将由这个方法返回并从文档树中被移除，同时由要插入的节点占据其位置。
+	removeChild() 
+		一个参数，即要移除的节点。
+		移除的节点将作为方法的返回值。其他方法,任何节点对象都可以调用。
+	
+	其他方法
+	cloneNode() 
+		用于创建调用这个方法的节点的一个完全相同的副本。
+		有一个参数为布尔类型参数为true时，表示深复制，即复制节点以及整个子节点数。
+		参数为false的时候，表示浅复制，只复制节点本身。
+		该方法不会复制添加到DOM节点中的JavaScript属性，例如事件处理程序等。
+		该方法只复制特定,子节点，其他一切都不复制。
+		但是IE中可以复制，建议标准相同，在复制之前，移除所有事件处理程序。
+2) Document类型
+	javascript通过使用Document类型表示文档。在浏览器中，document对象是HTMLDocument的一个实例，表示整个HTML页面。document对象是window对象的一个属性，因此可以直接调用。HTMLDocument继承自Document
+	window:{
+		document:{/*HTMLDocumnet*/
+
+		}
+	}
+
+    1. 文档子节点
+		可以继承Node中所有的属性和方法
+		属性：
+			documentElement	始终指向HTML页面中的<html>元素。
+			body			直接指向<body>元素
+			doctype			访问<!DOCTYPE>, 浏览器支持不一致，很少使用
+			title			获取文档的标题
+			URL				取得完整的URL
+			domain			取得域名，并且可以进行设置，在跨域访问中经常会用到。
+			referrer		取得链接到当前页面的那个页面的URL，即来源页面的URL
+	        images			获取所有的img对象，返回HTMLCollection类数组对象
+	        forms			获取所有的form对象，返回HTMLCollection类数组对象
+	        links			获取文档中所有带href属性的<a>元素,返回HTMLCollection类数组对象
+	    2. 查找元素
+			getElementById()  
+				参数为要取得元素的ID，如果找到返回该元素，否则返回null如果页面中多个元素的ID值相同，只返回文档中第一次出现的元素。如果某个表单元素的name值等于指定的ID，该元素也会被匹配。
+			getElementsByTagName()
+				参数为要取得元素的标签名，返回包含另个或者多个元素的NodeList，在HTML文档中该方法返回的是HTMLCollection对象，与NodeList非常类似。可以通过[index/name],item(),namedItem(name)访问
+			getElementsByName() 
+				参数为元素的name,返回符合条件的HTMLCollection
+			getElementsByClassName() 
+				参数为一个字符串，可以由多个空格隔开的标识符组成。当元素的class属性值包含所有指定的标识符时才匹配。HTML元素的class属性值是一个以空格隔开的列表，可以为空或包含多个标识符。
+		3.				
+					//创建一个属性
+			document.createAttribute("属性名");
+						属性名.value =属性值 ;
+					//创建一个元素
+			document.createElement("div");
+	3) Element类型	 
+	    1. HTML元素
+			所有的HTML元素都由HTMLElement类型表示，或者其子类型表示。
+			每个HTML元素都应具有如下一些属性以及html元素特有的属性。	id、class、title、style
+			style
+			id			元素在文档中的唯一标识符
+			title		有关元素的附加说明信息
+			className	与元素class特性对应
+			src			img元素具有的属性
+			alt			img元素具有的属性
+			value		input标签的私有
+
+			//href		a标签的私有
+			//target	a标签的私有
+		
+	可以通过属性访问到该属性对应的值	
+	1)取得属性
+	    getAttribute() 参数为实际元素的属性名，
+		calss,name,id,title,lang,dir一般只有在取得自定义特性值的情况下，
+		才会用该方法大多数直接使用属性进行访问，比如style,onclick
+	2)设置属性
+	    setAttribute() 两个参数，第一个参数为要设置的特性名，第二个参数为对应的值。
+		如果该值存在，替换。
+	3)移除属性
+	    removeAttribute() 移除指定的特姓
+    4)创建元素
+    	element=document.createElement()  	 	一个参数:要创建元素的标签名。
+    5)元素的子节点
+	    <ul>
+	    	<li>item1</li>
+	    	<li>item2</li>
+	    	<li>item3</li>
+	    </ul>
+	    ie8及一下版本浏览器	3个子节点
+	    其他浏览器			7个子节点
+    2. 作为文档树的文档
+		将文档看做是Element对象树，忽略文档Text,Comment节点。
+		Element中的属性
+		children 				:类似于childNodes,返回NodeList对象，但是该对象中仅包含Element对象
+		firstElementChild		:第一个孩子元素节点	
+		lastElementChild		:最后一个孩子元素节点
+		nextElementSibling		:下一个兄弟元素节点
+		previousElementSibling	:上一个兄弟元素节点
+		childElementCount		:子元素的数量，返回值和children.length值相等
+    3. 元素内容
+        innerHTML  		返回元素内容 这里还可以显示元素
+        textContent  	非ie浏览器  只能显示文本内容 设置的话当成普通文本textContent="asf";
+
+
+        
+        innerText    	ie浏览器
+
+
+4) Text类型： 文本类型
+	Text.prototype.xxx
+
+	文本节点。包含的是可以按照字面解释的纯文本内容。
+	length  
+		文本长度
+	appendData(text)
+		追加文本
+	deleteData(beginIndex,count)
+		删除文本
+	insertData(beginIndex,text)
+		插入文本
+	replaceData(beginIndex,count,text)
+		替换文本
+	splitText(beiginIndex)  
+		从beginIndex位置将当前文本节点分成两个文本节点
+	substringData(beiginIndex,count) 
+		从beginIndex开始提取count个子字符串
+	document.createTextNode()
+	 	创建文本节点，参数为要插入节点中的文本
+
+5) Comment类型：  注释类型
+<div id = "myDiv"><!--a comment--></div>
+<!--a comment--> Comment类型
+
+	

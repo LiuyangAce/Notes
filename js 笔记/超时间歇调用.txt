@@ -1,0 +1,15 @@
+超时调用和间歇调用
+    超时调用：超过一定时间，调用当前代码一次
+        var id = setTimeout(function(){
+
+        },time);
+        time:毫秒数
+
+    清除超时调用：
+        clearTimeout(id);
+    
+    间歇调用：每间歇一段时间，就调用代码一次
+        setInterval(handler,time);
+    
+    清除间歇调用：
+        clearInterval(id);

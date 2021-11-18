@@ -9,7 +9,5 @@ function number(num) {
   console.log(num);
 }
 
-module.exports = {
-  greet:greet,
-  number:number
-}
+exports.greet = greet
+exports.number = number

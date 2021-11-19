@@ -24,4 +24,25 @@ for...of 遍历iterable类型 Array map set
   for(let item of iterable){...}
 
 
+  =======================
+  nodejs
+
+  window 命令行模式 
+  node 命令行模式 可以同步输入结果 node进入
+
+  严格模式执行代码 node --use_strict
+
+  module.exports VS export
+
+  内置对象
+    global   对应 win -》 window
+    process 
+      nextTick 让函数在下一次循环的时候调用
+      on('exit',callback()) 退出的时候执行
+
+  内置模块
+  fs
+    readFile('文件名','字符编码',callback(err,data))
+      能读取到
+
   

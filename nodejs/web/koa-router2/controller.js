@@ -32,7 +32,6 @@ function addControllers(router, __dirname) {
 
 module.exports = function (dir) {
   let controllers_dir = dir || 'G:\\gitProject\\notes\\nodejs\\web\\koa-router2';
-  // console.log(dir,controllers_dir)
   let router = require('koa-router')();
   addControllers(router, controllers_dir);
   return router.routes()

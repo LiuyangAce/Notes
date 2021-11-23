@@ -1,16 +1,3 @@
-var Koa = require('koa')
-
-var router = require('koa-router')()
-
-var bodyParser = require('koa-bodyparser')
-
-var app = new Koa()
-
-app.use(async (ctx,next)=> {
-  console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-  await next()
-})
-
 router.get('/',async (ctx,next)=>{
   console.log(`in ${ctx.request.url}`);
   ctx.response.body = `<h1>Hello</h1>
@@ -45,10 +32,3 @@ router.post('/index',async (ctx,next)=> {
     `
   }
 })
-
-app.use(bodyParser())
-
-app.use(router.routes())
-
-app.listen(3000)
-console.log("app started at port http://127.0.0.1:3000...")

@@ -20,7 +20,7 @@ app.use(async (ctx, next) => {
 //   ctx.response.body = "<h1>Index</h1>";
 // });
 
-router.post("/", async (ctx, next) => {
+router.get("/", async (ctx, next) => {
   ctx.response.body = `<h1>Index</h1>
     <form action="/signin" method="post">
       <p>Name: <input name="name" value="koa"></p>
@@ -30,7 +30,7 @@ router.post("/", async (ctx, next) => {
 });
 
 router.post("/signin", async (ctx, next) => {
-  var name = ctx.response.body.name || "";
+  var name = ctx.request.body.name || "";
   var password = ctx.request.body.password || "";
   console.log(`name: ${name} password: ${password}`);
   if(name === "liuyang" && password === "123456"){
@@ -48,5 +48,5 @@ app.use(bodyParser());
 // add router middleware:
 app.use(router.routes());
 
-app.listen(3000);
-console.log("app started at port http://127.0.0.1:3000...");
+app.listen(3001);
+console.log("app started at port http://127.0.0.1:3001...");

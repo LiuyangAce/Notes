@@ -63,7 +63,7 @@ export default {
   },
 }
 </script>
-<style lang="less">
+<style>
 #data-view {
   margin: 0px;
 }

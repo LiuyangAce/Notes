@@ -27,19 +27,17 @@ export default {
   },
 }
 </script>
-<style lang="less">
+<style>
 #flop-item {
   height: 100%;
   widows: 100%;
 }
-.flop-item-title {
-  span {
+
+.flop-item-title  span {
     color: white;
   }
-}
-.flop-item-content {
-  .num {
+
+.flop-item-content  .num {
     color: white;
   }
-}
 </style>

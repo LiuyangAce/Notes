@@ -32,3 +32,12 @@
         *npm list 
         *npm outdated
         *npm update
+  
+  # 02模块
+    -内置模块: process http/https 不需要引入 node自带的
+    -第三方模块: 需要npm下载  e.g. lodash undercore
+    -自定义模块: modules.export 暴露出来 ，require 引用来使用
+          也可以发布到npm上 当成第三方模块下载
+          1.npm init -y 初始化package.json name 就是npm文件名
+          2.npm publish 注意文件名要全世界唯一
+  # 03脚本 详细请看02-tools 下的package.json

@@ -8,7 +8,8 @@
     "greeting": "echo greeting",
     "runjs": "node ./03-scripts/script1.js & node ./03-scripts/script2.js",
     "start": "node ./03-scripts/script.js",
-    "test": "node ./03-scripts/test.js"
+    "test": "node ./03-scripts/test.js",
+    "build": "echo %npm_package_config_env%"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +21,8 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2"
+  },
+  "config":{
+    "env": "production"
   }
 }

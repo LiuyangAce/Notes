@@ -41,3 +41,10 @@
           1.npm init -y 初始化package.json name 就是npm文件名
           2.npm publish 注意文件名要全世界唯一
   # 03脚本 详细请看02-tools 下的package.json
+
+
+
+# npx 
+  本地有就调用本地的 没有就'下载'【但是不会真的下载】
+
+  用处 别人拿到你的代码跑脚本【npx gulp -f】 安装到本地以后关闭有删除了【还是没安装】

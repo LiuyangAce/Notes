@@ -42,8 +42,3 @@ const urlObj = {
 const urlParams = new URLSearchParams(url.parse(urlString).search)
 // logger.debug(urlParams)
 logger.debug(urlParams.get('id'))
-
-//测试revert 回退
-
-// ceshi revert huigun
-// ceshi revert huigun3

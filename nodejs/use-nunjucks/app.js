@@ -30,3 +30,16 @@ var env = createEnv('views', {
         }
     }
 });
+
+// var s = env.render('hello.html', { name: '小明' });
+// console.log(s);
+
+// 预防xss攻击
+// var s = env.render('hello.html', { name: '<script>alert("小明")</script>' });
+// console.log(s);
+
+var s = env.render('extend.html', {
+  header: 'this is header',
+  body: 'this is body',
+});
+console.log(s);

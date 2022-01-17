@@ -4,21 +4,23 @@
   "description": "Hello Koa 2 example with async",
   "main": "app.js",
   "scripts": {
-      "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "keywords": [
-      "koa",
-      "async"
+    "koa",
+    "async"
   ],
   "author": "Liu yang",
   "license": "Apache-2.0",
   "repository": {
-      "type": "git",
-      "url": "git@github.com:LiuyangAce/Notes.git"
+    "type": "git",
+    "url": "git@github.com:LiuyangAce/Notes.git"
   },
   "dependencies": {
-      "koa": "2.0.0",
-      "koa-router": "7.0.0",
-      "koa-bodyparser": "3.2.0"
+    "koa": "2.0.0",
+    "koa-bodyparser": "3.2.0",
+    "koa-json-error": "^3.1.2",
+    "koa-parameter": "^3.0.1",
+    "koa-router": "7.0.0"
   }
 }

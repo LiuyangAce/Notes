@@ -5,8 +5,6 @@ const router = require("koa-router")({
 });
 
 const bodyParser = require("koa-bodyparser");
-const jsonerror = require("koa-json-error")
-const parameter = require("koa-parameter")
 
 const app = new Koa();
 
@@ -15,18 +13,10 @@ app.use(async (ctx, next) => {
   await next();
 });
 
-// router.get("/hello/:name", async (ctx, next) => {
-//   var name = ctx.params.name;
-//   ctx.response.body = `<h1>Hello, ${name}!</h1>`;
-// });
-
-// router.get("/", async (ctx, next) => {
-//   ctx.response.body = "<h1>Index</h1>";
-// });
-
 let userList = [
   {username: 'tom',pwd:'123'}
 ]
+
 
 // 查询所有用户
 router.get("/", async (ctx, next) => {
@@ -39,27 +29,18 @@ router.get("/", async (ctx, next) => {
 router.get("/find/:id", async (ctx, next) => {
   let id = ctx.params.id
   if(Number(id) > (userList.length-1)){
-    ctx.throw(412,'先决条件失败!')
+    console.log('in here');
+    ctx.throw(412)
   }
-  ctx.response.body = {
-    code: 200,
-    msg: '查询成功',
-    data: userList[Number(id)]
-  }
+  // ctx.response.body = {
+  //   code: 200,
+  //   msg: '查询成功',
+  //   data: userList[Number(id)]
+  // }
 });
 
 // 添加
 router.post("/add", async (ctx, next) => {
-  ctx.verifyParams({
-    username: {
-      type: 'string',
-      require: true
-    },
-    pwd: {
-      type: 'string',
-      require: true
-    }
-  })
   let {username,pwd} = ctx.request.body
   userList.push({
     username,
@@ -94,24 +75,8 @@ router.put('/updata',async (ctx, next) => {
   }
 })
 
-// // 异常处理
-// app.use(async(ctx,next) => {
-//   try{
-//     await next()
-//   } catch (err) {
-//     ctx.status = err.status || err.statusCode || 500
-//     ctx.response.body = {
-//       message: err.message
-//     }
-//   }
-// })
-
-app.use(jsonerror())
-
 //注意位置（middleware按顺序执行） 要放到   app.use(router.routes()) 前面
 app.use(bodyParser());
-
-app.use(parameter(app))
 
 // add router middleware:
 app.use(router.routes());

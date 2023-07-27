@@ -6,8 +6,8 @@
 // printId(101)
 // printId('jiang')
 
-function fun(x:number[]|string) {
+function func(x:number[]|string) {
   return x.slice(0,3)
 }
-console.log(fun([1,2,3,4,5]));
-console.log(fun("12345"));
+console.log(func([1,2,3,4,5]));
+console.log(func("12345"));
